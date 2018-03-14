@@ -1,0 +1,63 @@
+<html>
+
+
+        <head>
+                <title>View User Posts</title>
+                <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+              <!--Style Sheets-->
+              <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+              <link href = "style.css" rel = "stylesheet" type = "text/css"/>
+            </head>
+            <body>
+                <main  role="main" class ="container-fluid">
+                    <div class="jumbotron" style="background-color: lightblue">
+                            <h1 class="display-3">User Posts</h1>
+                            <p class = "lead">
+                                <b>Pick a user from the dropdown below</b>
+                                </p>
+                    </div>
+                </main>
+                <div class="container-fluid">
+                    <form method="post" action="ViewUserPosts.php">
+                    <div class="row">
+                        <div class="col-sm" style="background-color: aliceblue">
+
+                            <select class="form-control" id="userSelect" name="author">
+                                    <?php $mysqli = new mysqli("mysql.eecs.ku.edu","z897m200","oo3Kietu","z897m200");
+
+                                    if ($mysqli->connect_errno){
+                                      echo "Connect failed: %s\n". $mysqli->connect_error;
+                                      exit();
+                                    }
+
+                                    $query = "SELECT user_id FROM Users";
+                                    $result = $mysqli->query($query);
+                                    $userArray = Array();
+                                    while ($row = mysqli_fetch_array($result, MYSQL_ASSOC)) {
+                                        $userArray[] =  $row['user_id'];
+                                    }
+
+                                    foreach($userArray as $item){
+                                        echo "<option value='".$item."'>".$item."</option>";
+                                    }
+
+                                    ?>
+                            </select>
+                            <br/><br/>
+                        <input type="submit" value="View Posts" class="btn"   <?php if(sizeof($userArray) == 0){?> disabled<?php } ?>>
+                        <br/>
+                        <input type="submit" value="Return Home" class="btn"  formaction="AdminHome.html">
+                        </div>
+                    </div>
+                    </form>
+                </div>
+
+            </body>
+
+            <!--Bootstrap-->
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</html>
